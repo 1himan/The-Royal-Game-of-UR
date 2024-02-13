@@ -8,7 +8,8 @@ This game, dear friend, is not for the faint of heart. It is a battle of wits an
 
 ## How to Play
 
-Fear not, for you do not need a time machine to learn the rules of this game. Simply click on the link provided, and you shall be transported to a time when the world was young, and board games were a matter of life and death.
+Fear not, for you do not need a time machine to learn the rules of this game. Simply click on the link provided, and you shall be transported to a time when the world was young, and board games were a matter of life and death. 
+link => https://youtu.be/WZskjLq040I?feature=shared
 
 ## Installation
 
