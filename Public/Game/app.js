@@ -232,6 +232,29 @@ export class Game {
       UI.setScore(player, 0);
     });
   }
+  resetIndividualGame() {
+    // now here if we assign base positions to our current position it's going to be copied as reference and then if we update
+    // the currentPositions the changes will also be reflected in our BASE_POSITIONS constant as well and we don't want that
+
+    this.currentPositions = structuredClone(BASE_POSITIONS);
+    PLAYERS.forEach((player) => {
+      [0, 1, 2, 3, 4, 5, 6].forEach((piece) => {
+        this.setPiecePosition(
+          player,
+          piece,
+          this.currentPositions[player][piece]
+        );
+      });
+    });
+
+    //first player P1 => will be allowed to roll first
+    this.turn = 0;
+    this.state = STATE.DICE_NOT_ROLLED;
+    PLAYERS.forEach((player) => {
+      this.score[player] = 0;
+      UI.setScore(player, 0);
+    });
+  }
 
   listenPieceClick() {
     UI.listenPieceClick(this.onPieceClick.bind(this));
@@ -437,71 +460,52 @@ document.addEventListener("keyup", () => {
     diceValue = _Game._diceValue;
 
     started = true;
-  }
-});
 
-socket.on("updatedPositions", (updatedPositions) => {
-  _Game.currentPositions[updatedPositions.player][updatedPositions.piece] =
-    updatedPositions.newPosition;
+    // writing the socket statements inside the eventlistener fixes an initial bug
+    socket.on("updatedPositions", (updatedPositions) => {
+      _Game.currentPositions[updatedPositions.player][updatedPositions.piece] =
+        updatedPositions.newPosition;
 
-  frontEndPositions = updatedPositions;
+      frontEndPositions = updatedPositions;
 
-  UI.setPiecePosition(
-    updatedPositions.player,
-    updatedPositions.piece,
-    updatedPositions.newPosition
-  );
-  UI.setDiceValue("");
-});
-
-socket.on("diceValue", (diceValue) => {
-  UI.setDiceValue(diceValue);
-});
-
-socket.on("setTurn", ({ turn, PLAYERS }) => {
-  // <><> 3rd <><> >==> To set turn of player
-  //                    By default Player 1 will be allowed to roll first
-  //PLAYERS --> from backend with their socket id
-  //
-  //this will internally set the turn of the player
-  _Game.turn = turn;
-  _Game.state = STATE.DICE_NOT_ROLLED;
-
-  if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
-    UI.disableDice();
-  }
-});
-
-socket.on("setScore", (Score, player, text) => {
-  _Game.score[player] = Score;
-  UI.setScore(player, Score);
-  UI.setLead(text);
-});
-
-socket.on("Winner", (player) => {
-  alert(`${player} Has Won`);
-});
-
-socket.on("resetGame", () => {
-  // this is basically is resetGame from _Game object but we cant just directly
-  // execute _Game.resetGame() because it will create an infinite loop
-  _Game.currentPositions = structuredClone(BASE_POSITIONS);
-  frontEndPositions = currentPositions;
-  PLAYERS.forEach((player) => {
-    [0, 1, 2, 3, 4, 5, 6].forEach((piece) => {
-      _Game.setPiecePosition(
-        player,
-        piece,
-        _Game.currentPositions[player][piece]
+      UI.setPiecePosition(
+        updatedPositions.player,
+        updatedPositions.piece,
+        updatedPositions.newPosition
       );
+      UI.setDiceValue("");
     });
-  });
 
-  //first player P1 => will be allowed to roll first
-  _Game.turn = 0;
-  _Game.state = STATE.DICE_NOT_ROLLED;
-  PLAYERS.forEach((player) => {
-    _Game.score[player] = 0;
-    UI.setScore(player, 0);
-  });
+    socket.on("diceValue", (diceValue) => {
+      UI.setDiceValue(diceValue);
+    });
+
+    socket.on("setTurn", ({ turn, PLAYERS }) => {
+      // <><> 3rd <><> >==> To set turn of player
+      //                    By default Player 1 will be allowed to roll first
+      //PLAYERS --> from backend with their socket id
+      //
+      //this will internally set the turn of the player
+      _Game.turn = turn;
+      _Game.state = STATE.DICE_NOT_ROLLED;
+
+      if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
+        UI.disableDice();
+      }
+    });
+
+    socket.on("setScore", (Score, player, text) => {
+      _Game.score[player] = Score;
+      UI.setScore(player, Score);
+      UI.setLead(text);
+    });
+
+    socket.on("Winner", (player) => {
+      alert(`${player} Has Won`);
+    });
+
+    socket.on("resetGame", () => {
+      _Game.resetIndividualGame();
+    });
+  }
 });
