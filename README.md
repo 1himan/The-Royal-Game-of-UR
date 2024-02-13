@@ -15,7 +15,9 @@ But the journey does not end here. In the spirit of the ancients, who were alway
 ## How to Play
 
 Fear not, for you do not need a time machine to learn the rules of this game. Simply click on the link provided, and you shall be transported to a time when the world was young, and board games were a matter of life and death. 
-link => https://youtu.be/WZskjLq040I?feature=shared
+https://youtu.be/WZskjLq040I?feature=shared
+
+Open 2 browser windows side by side and navigate to local host 8000 on both windows, the window that navigated to the game first will be automatically set to player 1 and the second one will be considered as player 2
 
 ## Installation
 
