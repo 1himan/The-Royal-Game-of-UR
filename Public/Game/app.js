@@ -11,11 +11,8 @@ import {
   TRACK,
 } from "./constants.js";
 
-let socket1;
-
-setTimeout(() => {
-  socket1 = io("http://localhost:8000");
-}, 350);
+//try removing this "http://localhost:8000"
+let socket = io("http://localhost:8000");
 
 export class Game {
   constructor() {
@@ -103,7 +100,7 @@ export class Game {
     }
     // <><> 2nd <><> task >>->  to send the dice value to the backend and then send it
     //                back to everyone's frontend
-    socket1.emit("diceValue", this.diceValue);
+    socket.emit("diceValue", this.diceValue);
     this.checkForEligilePieces();
   }
 
@@ -128,7 +125,7 @@ export class Game {
 
     // <><> 3rd <><> >==> To set turn of player
     //                    By default Player 1 will be allowed to roll first
-    socket1.emit("turn", { turn });
+    socket.emit("turn", { turn });
   }
 
   getEligiblePieces(player) {
@@ -212,7 +209,7 @@ export class Game {
   }
 
   resetGame() {
-    socket1.emit("resetClicked");
+    socket.emit("resetClicked");
 
     // now here if we assign base positions to our current position it's going to be copied as reference and then if we update
     // the currentPositions the changes will also be reflected in our BASE_POSITIONS constant as well and we don't want that
@@ -244,7 +241,7 @@ export class Game {
     //the moment position of a piece is changed just a bit before we are
     //sending data to backend in order to send it back to other player's
     //frontend so that we change change position of that piece in everyone's frontend
-    socket1.emit("increamentedPosition", {
+    socket.emit("increamentedPosition", {
       player,
       piece,
       newPosition,
@@ -310,7 +307,7 @@ export class Game {
           clearInterval(increamenter);
 
           if (this.hasPlayerWon(player)) {
-            socket1.emit("winner", player);
+            socket.emit("winner", player);
             // alert(`${player} Has won`);
             this.resetGame();
           }
@@ -356,7 +353,7 @@ export class Game {
     UI.setScore(player, this.score[player]);
     this.setPiecePosition(player, piece, WIN_POSITIONS[player][piece]);
     let text = this.setLeadingPlayer();
-    socket1.emit("score", this.score[player], player, text);
+    socket.emit("score", this.score[player], player, text);
   }
 
   hasPlayerWon(player) {
@@ -412,3 +409,99 @@ export class Game {
     }
   }
 }
+
+//* Code for sockets starts from here
+
+let _Game;
+let started = false;
+let diceValue;
+let frontEndPositions = {
+  P1: [],
+  P2: [],
+};
+let frontendPlayers = PLAYERS;
+document.addEventListener("keyup", () => {
+  if (started === false) {
+    // parent.removeChild(canvas);
+    _Game = new Game();
+    //
+    // this statement actually fixes a bug that seems quite bugging only at
+    // the starting of the game and doesnt bother further
+    // The bug was that when game is started i was able to click on both
+    // player's windows (dice btn) regardless of their turn but this line of code
+    // fixes that stuff
+    // \/ \/ \/
+    _Game.increamentTurn();
+    frontEndPositions = _Game.currentPositions;
+
+    diceValue = _Game._diceValue;
+
+    started = true;
+  }
+});
+
+socket.on("updatedPositions", (updatedPositions) => {
+  _Game.currentPositions[updatedPositions.player][updatedPositions.piece] =
+    updatedPositions.newPosition;
+
+  frontEndPositions = updatedPositions;
+
+  UI.setPiecePosition(
+    updatedPositions.player,
+    updatedPositions.piece,
+    updatedPositions.newPosition
+  );
+  UI.setDiceValue("");
+});
+
+socket.on("diceValue", (diceValue) => {
+  UI.setDiceValue(diceValue);
+});
+
+socket.on("setTurn", ({ turn, PLAYERS }) => {
+  // <><> 3rd <><> >==> To set turn of player
+  //                    By default Player 1 will be allowed to roll first
+  //PLAYERS --> from backend with their socket id
+  //
+  //this will internally set the turn of the player
+  _Game.turn = turn;
+  _Game.state = STATE.DICE_NOT_ROLLED;
+
+  if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
+    UI.disableDice();
+  }
+});
+
+socket.on("setScore", (Score, player, text) => {
+  _Game.score[player] = Score;
+  UI.setScore(player, Score);
+  UI.setLead(text);
+});
+
+socket.on("Winner", (player) => {
+  alert(`${player} Has Won`);
+});
+
+socket.on("resetGame", () => {
+  // this is basically is resetGame from _Game object but we cant just directly
+  // execute _Game.resetGame() because it will create an infinite loop
+  _Game.currentPositions = structuredClone(BASE_POSITIONS);
+  frontEndPositions = currentPositions;
+  PLAYERS.forEach((player) => {
+    [0, 1, 2, 3, 4, 5, 6].forEach((piece) => {
+      _Game.setPiecePosition(
+        player,
+        piece,
+        _Game.currentPositions[player][piece]
+      );
+    });
+  });
+
+  //first player P1 => will be allowed to roll first
+  _Game.turn = 0;
+  _Game.state = STATE.DICE_NOT_ROLLED;
+  PLAYERS.forEach((player) => {
+    _Game.score[player] = 0;
+    UI.setScore(player, 0);
+  });
+});

@@ -215,3 +215,7 @@ h3.score_ span {
   text-align: center;
   font-size: 22.5px;
 }
+
+canvas {
+  z-index: 3;
+}

@@ -27,10 +27,8 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
   backEndPlayers.push(socket.id);
 
-  let realPlayers = backEndPlayers.filter((el, index) => index % 2 === 0);
-
-  PLAYERS.P1 = realPlayers[0];
-  PLAYERS.P2 = realPlayers[1];
+  PLAYERS.P1 = backEndPlayers[0];
+  PLAYERS.P2 = backEndPlayers[1];
 
   socket.on("diceValue", (diceValue) => {
     io.emit("diceValue", diceValue);
@@ -69,7 +67,6 @@ io.on("connection", (socket) => {
   //to disconnect players
   socket.on("disconnect", (reason) => {
     let index = backEndPlayers.indexOf(socket.id);
-
     if (index > -1) {
       backEndPlayers.splice(index, 1);
     }
