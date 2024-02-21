@@ -100,7 +100,7 @@ export class Game {
     }
     // <><> 2nd <><> task >>->  to send the dice value to the backend and then send it
     //                back to everyone's frontend
-    socket.emit("diceValue", this.diceValue);
+    socket.emit("diceValue", this.diceValue, myRoomNo);
     this.checkForEligilePieces();
   }
 
@@ -125,7 +125,7 @@ export class Game {
 
     // <><> 3rd <><> >==> To set turn of player
     //                    By default Player 1 will be allowed to roll first
-    socket.emit("turn", { turn });
+    socket.emit("turn", turn, myRoomNo);
   }
 
   getEligiblePieces(player) {
@@ -209,7 +209,7 @@ export class Game {
   }
 
   resetGame() {
-    socket.emit("resetClicked");
+    socket.emit("resetClicked", myRoomNo);
 
     // now here if we assign base positions to our current position it's going to be copied as reference and then if we update
     // the currentPositions the changes will also be reflected in our BASE_POSITIONS constant as well and we don't want that
@@ -264,11 +264,15 @@ export class Game {
     //the moment position of a piece is changed just a bit before we are
     //sending data to backend in order to send it back to other player's
     //frontend so that we change change position of that piece in everyone's frontend
-    socket.emit("increamentedPosition", {
-      player,
-      piece,
-      newPosition,
-    });
+    socket.emit(
+      "increamentedPosition",
+      {
+        player,
+        piece,
+        newPosition,
+      },
+      myRoomNo
+    );
 
     //apart from just updating the DOM, we also need to update our currentPositions object
     this.currentPositions[player][piece] = newPosition;
@@ -330,7 +334,7 @@ export class Game {
           clearInterval(increamenter);
 
           if (this.hasPlayerWon(player)) {
-            socket.emit("winner", player);
+            socket.emit("winner", player, myRoomNo);
             // alert(`${player} Has won`);
             this.resetGame();
           }
@@ -376,7 +380,7 @@ export class Game {
     UI.setScore(player, this.score[player]);
     this.setPiecePosition(player, piece, WIN_POSITIONS[player][piece]);
     let text = this.setLeadingPlayer();
-    socket.emit("score", this.score[player], player, text);
+    socket.emit("score", this.score[player], player, text, myRoomNo);
   }
 
   hasPlayerWon(player) {
@@ -442,12 +446,12 @@ let frontEndPositions = {
   P1: [],
   P2: [],
 };
+let myRoomNo;
 let frontendPlayers = PLAYERS;
 document.addEventListener("keyup", () => {
   if (started === false) {
-    // parent.removeChild(canvas);
     _Game = new Game();
-    //
+    _Game.turn = 1;
     // this statement actually fixes a bug that seems quite bugging only at
     // the starting of the game and doesnt bother further
     // The bug was that when game is started i was able to click on both
@@ -462,6 +466,20 @@ document.addEventListener("keyup", () => {
     started = true;
 
     // writing the socket statements inside the eventlistener fixes an initial bug
+    socket.on("setTurn", (turn, PLAYERS) => {
+      // <><> 3rd <><> >==> To set turn of player
+      //                    By default Player 1 will be allowed to roll first
+      //PLAYERS --> from backend with their socket id
+      //
+      //this will internally set the turn of the player
+      _Game.turn = turn;
+      _Game.state = STATE.DICE_NOT_ROLLED;
+
+      if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
+        UI.disableDice();
+      }
+    });
+
     socket.on("updatedPositions", (updatedPositions) => {
       _Game.currentPositions[updatedPositions.player][updatedPositions.piece] =
         updatedPositions.newPosition;
@@ -480,20 +498,6 @@ document.addEventListener("keyup", () => {
       UI.setDiceValue(diceValue);
     });
 
-    socket.on("setTurn", ({ turn, PLAYERS }) => {
-      // <><> 3rd <><> >==> To set turn of player
-      //                    By default Player 1 will be allowed to roll first
-      //PLAYERS --> from backend with their socket id
-      //
-      //this will internally set the turn of the player
-      _Game.turn = turn;
-      _Game.state = STATE.DICE_NOT_ROLLED;
-
-      if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
-        UI.disableDice();
-      }
-    });
-
     socket.on("setScore", (Score, player, text) => {
       _Game.score[player] = Score;
       UI.setScore(player, Score);
@@ -508,4 +512,9 @@ document.addEventListener("keyup", () => {
       _Game.resetIndividualGame();
     });
   }
+});
+
+socket.on("roomID", (roomNo) => {
+  myRoomNo = roomNo;
+  console.log(`I should be in Room no ${roomNo}`);
 });

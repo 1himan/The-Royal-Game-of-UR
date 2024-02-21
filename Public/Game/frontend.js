@@ -1,4 +1,4 @@
-import { Game } from "./Game/app.js";
+import { Game } from "./app.js";
 
 //* ~~> Code for canvas
 let canvas;

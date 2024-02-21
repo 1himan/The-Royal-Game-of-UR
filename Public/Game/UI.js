@@ -139,4 +139,3 @@ export class UI {
     lead.innerText = text;
   }
 }
-
