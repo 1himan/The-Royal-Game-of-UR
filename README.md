@@ -28,7 +28,7 @@ To install this game on your local machine, follow these steps:
 2. Navigate to the project directory.
 3. Run `npm install` to install the necessary dependencies.
 4. Run `npm start` to start the server.
-5. Open your browser and navigate to `localhost:8000` to start the game.
+5. Open your browser and navigate to `localhost:8000/game` to start the game.
 
 ## Contributing
 
