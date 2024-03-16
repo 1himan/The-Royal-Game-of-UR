@@ -11,7 +11,7 @@ import {
   TRACK,
 } from "./constants.js";
 
-let socket = io("http://localhost:8000");
+let socket = io("http://localhost:8000/");
 
 export class Game {
   constructor() {
@@ -514,9 +514,10 @@ document.addEventListener("keyup", () => {
       _Game.resetIndividualGame();
     });
   }
+});
 
-  socket.on("roomID", (roomNo) => {
-    // user will send it's room name to the sever as well so that the sever can exchange the data etween the clients connected to that room only
-    myRoomNo = roomNo;
-  });
+socket.on("roomID", (roomNo) => {
+  console.log("Room id is here", roomNo);
+  // user will send it's room name to the sever as well so that the sever can exchange the data etween the clients connected to that room only
+  myRoomNo = roomNo;
 });

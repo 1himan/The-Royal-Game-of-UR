@@ -25,12 +25,10 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
-
 let clientNo = 0;
 
 io.on("connection", (socket) => {
-  console.log("A new user connected");
-
+  console.log("A client just connected");
   clientNo++;
   socket.join(Math.round(clientNo / 2));
   socket.emit("roomID", Math.round(clientNo / 2));
@@ -92,7 +90,6 @@ io.on("connection", (socket) => {
 
   //to disconnect players
   socket.on("disconnect", (reason) => {
-    console.log("A user disconnected");
     --clientNo;
     let index = backEndPlayers.indexOf(socket.id);
     if (index > -1) {
