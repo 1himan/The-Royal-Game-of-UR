@@ -11,7 +11,6 @@ import {
   TRACK,
 } from "./constants.js";
 
-//try removing this "http://localhost:8000"
 let socket = io("http://localhost:8000");
 
 export class Game {
@@ -475,7 +474,10 @@ document.addEventListener("keyup", () => {
       _Game.turn = turn;
       _Game.state = STATE.DICE_NOT_ROLLED;
 
+      console.log(socket.id);
       if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
+        // this socket id elongs to the player who triggered the setTurn event
+        console.log(PLAYERS);
         UI.disableDice();
       }
     });
@@ -512,9 +514,9 @@ document.addEventListener("keyup", () => {
       _Game.resetIndividualGame();
     });
   }
-});
 
-socket.on("roomID", (roomNo) => {
-  myRoomNo = roomNo;
-  console.log(`I should be in Room no ${roomNo}`);
+  socket.on("roomID", (roomNo) => {
+    // user will send it's room name to the sever as well so that the sever can exchange the data etween the clients connected to that room only
+    myRoomNo = roomNo;
+  });
 });

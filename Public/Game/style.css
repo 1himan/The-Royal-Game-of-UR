@@ -219,3 +219,18 @@ h3.score_ span {
 canvas {
   z-index: 3;
 }
+
+.extra_1 {
+  min-width: 10vh;
+  max-width: 40vh;
+  height: 100vh;
+  background-color: aliceblue;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+.extra_2 {
+  width: 10vw;
+  height: 4vh;
+  background-color: rgb(93, 96, 99);
+}

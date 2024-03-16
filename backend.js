@@ -11,33 +11,26 @@ app.set("views", path.join(__dirname, "/views"));
 server.listen(8000, () => {});
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+const { v4: uuidv4 } = require("uuid");
 
-//contains the socket id of every player including app.js's socket1
+//contains the socket id of every player
 let backEndPlayers = [];
 
 let PLAYERS = {
   P1: 0,
   P2: 1,
 };
-const rooms = { roomName: {}, roomName2: {} };
 
 app.get("/", (req, res) => {
-  res.render("lobby", { rooms });
+  res.render("index");
 });
 
-app.get("/game", (req, res) => {
-  res.render("index"); // , { root: path.join(__dirname, "Public") }
-});
-
-app.post("/room", (req, res) => {
-  let users = {};
-  rooms[req.body.room] = { users };
-  res.redirect(req.body.room);
-});
 
 let clientNo = 0;
 
 io.on("connection", (socket) => {
+  console.log("A new user connected");
+
   clientNo++;
   socket.join(Math.round(clientNo / 2));
   socket.emit("roomID", Math.round(clientNo / 2));
@@ -99,6 +92,7 @@ io.on("connection", (socket) => {
 
   //to disconnect players
   socket.on("disconnect", (reason) => {
+    console.log("A user disconnected");
     --clientNo;
     let index = backEndPlayers.indexOf(socket.id);
     if (index > -1) {
