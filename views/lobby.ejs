@@ -4,8 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/css/Images/favicon2.png" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/lobby.css">
+  <link rel="stylesheet" href="/css/Swal.css">
   <title>Lobby of UR</title>
 </head>
 
@@ -13,14 +15,27 @@
   <audio controls id="audioPlayer">
     <source src="/css/Audio/Untitled.mp4">
   </audio>
+
   <button id="playButton"><i class="fa-solid fa-pause"></i></button>
   <a target="_blank" href="https://en.wikipedia.org/wiki/Royal_Game_of_Ur" class="stone_container"><img class="rotate" src="/css/Images/Untitled.png" alt=""></a>
   <div class="container">
+
     <form action="/game/public" method="get">
       <button class="same-btn"> Enter the Colosseum!</button>
     </form>
     <div class="form-container">
       <p>Enter the Secret Sanctuary!</p>
+      <!-- Why use return in onsubmit? The onsubmit event handler is designed to trigger a function 
+      when the form is submitted. The return keyword is used in conjunction with the function 
+      call to control the behavior of the form submission. If the function returns true, the 
+      form will be submitted as usual. If the function returns false, the form submission will be cancelled. -->
+      <!-- / -->
+      <!-- How does this event listener work? When you click the submit button, the form tries to submit the data.
+       But before it does that, it checks if there’s an onsubmit event handler. If there is, it executes the 
+       function specified in the onsubmit attribute. In this case, it’s the validateForm() function. 
+       The validateForm() function checks if the value entered in the “joinRoomName” input field is exactly 6 digits long. 
+       If it’s not, it shows a warning message using the Swal.fire() function and returns false. 
+       This false value is then returned to the onsubmit event handler, which cancels the form submission. -->
       <form id="roomForm" action="/game" method="post" onsubmit="return validateForm()">
         <input maxlength="6" minlength="6" id="joinRoomName" name="joinRoomName" type="number">
         <button type="submit" class="joinRoom"> Join </button>
@@ -29,52 +44,12 @@
 
     <form id="creatRoomForm" action="/game/private" method="get">
       <input type="hidden" id="roomName" name="roomName">
-      <button type="button" onclick="submitForm()" class="same-btn">Forge Your Own Realm!</button>
+      <button type="submit" class="same-btn">Forge Your Own Realm!</button>
     </form>
 
   </div>
-
-  <script>
-    var audioPlayer = document.getElementById('audioPlayer');
-    var playButton = document.getElementById('playButton');
-    var userPaused = false; // Flag to check if user paused the audio
-
-    function playAudio() {
-      if (!userPaused) {
-        audioPlayer.play();
-      }
-    }
-
-    document.addEventListener('mousemove', playAudio);
-
-    playButton.addEventListener('click', function() {
-      if (audioPlayer.paused) {
-        audioPlayer.play();
-        playButton.innerHTML = '<i class="fa-solid fa-pause"></i>';
-        userPaused = false;
-      } else {
-        audioPlayer.pause();
-        playButton.innerHTML = '<i class="fa-solid fa-play"></i>';
-        userPaused = true;
-      }
-    });
-
-
-
-    // do not bother this code
-    function submitForm() {
-      document.getElementById('creatRoomForm').submit();
-    }
-
-    function validateForm() {
-      var x = document.forms["roomForm"]["joinRoomName"].value;
-      if (x.length < 6 || x.length > 6) {
-        alert("Room name must be exactly 6 digits");
-        return false;
-      }
-    }
-    //down untill here
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="/js/Frontend/lobby.js"></script>
 </body>
 
 </html>

@@ -41,24 +41,6 @@ export class UI {
    */
 
   static setPiecePosition(player, piece, newPosition) {
-    //This code is checking if a specific element exists in a nested object structure. Here's a breakdown:
-    //
-    //1. `playerPiecesElement` is an object that contains information about different players and their pieces.
-    //2. `playerPiecesElement[player]` is trying to access the property of the `playerPiecesElement` object that corresponds to the `player` variable.
-    //3. `playerPiecesElement[player][piece]` is trying to access the property of the `playerPiecesElement[player]` object that corresponds to the `piece` variable.
-    //
-    //The `if` statement checks two conditions using the logical OR (`||`) operator:
-    //
-    //- `!playerPiecesElement[player]`: This checks if the `player` property does not exist in the `playerPiecesElement` object.
-    //- `!playerPiecesElement[player][piece]`: This checks if the `piece` property does not exist in the `playerPiecesElement[player]` object.
-    //
-    //If either of these conditions is true, the code inside the `if` statement block will execute. This code does two things:
-    //
-    //- It logs a message to the console stating that the player element of the given player and piece is not defined.
-    //- It then immediately exits the current function using the `return` statement, preventing any further code in the function from running.
-    //
-    //In summary, this code is used to prevent errors that could occur if you try to access a property on an undefined object. It's a common practice in JavaScript
-    // to ensure that an object and its properties exist before trying to use them. If they don't exist, the function returns early to avoid any potential errors.
     if (!playerPiecesElement[player] || !playerPiecesElement[player][piece]) {
       console.error(
         `Player element of a given player: ${player} and piece: ${piece} is not defined`

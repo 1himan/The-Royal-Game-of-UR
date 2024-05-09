@@ -1,0 +1,33 @@
+.my-popup {
+  background-color: #e4c59e !important;
+  color: #803d3b !important;
+}
+
+.my-icon {
+  color: #803d3b !important;
+}
+
+.swal2-icon.swal2-warning.my-icon.swal2-icon-show {
+  border-color: #803d3b !important;
+}
+.my-confirm-button {
+  background-color: #803d3b !important;
+  color: #e4c59e;
+}
+
+/* this is the lobby's alert */
+/* This targets the background of the toast */
+.swal2-container .swal2-toast {
+  background-color: #803d3b !important;
+}
+
+/* This targets the title text within the toast */
+.swal2-container .swal2-toast .swal2-title {
+  color: #FFFAB7 !important;
+}
+
+/* This targets the question icon color */
+.swal2-container .swal2-toast .swal2-icon-question {
+  color: #FFFAB7 !important;
+  border-color: #FFFAB7 !important;
+}

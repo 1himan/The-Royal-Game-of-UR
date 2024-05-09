@@ -15,17 +15,14 @@ let socket = io("http://localhost:8000/");
 let myRoomNo;
 if (window.roomType == "public") {
   // To join a public game
-  console.log(window.roomType);
+
   socket.emit("join", "public");
   socket.on("roomID", (roomNo) => {
-    console.log("Room id is here", roomNo);
-    // user will send it's room name to the sever as well so that the sever can exchange the data etween the clients connected to that room only
     myRoomNo = roomNo;
   });
 } else if (window.roomType == "private") {
   // To join a private games
-  console.log(window.roomType);
-  console.log(window.roomName);
+
   myRoomNo = window.roomName;
 
   socket.emit("join", "private");
@@ -117,8 +114,7 @@ export class Game {
       this.increamentTurn();
       return false;
     }
-    // <><> 2nd <><> task >>->  to send the dice value to the backend and then send it
-    //                back to everyone's frontend
+
     socket.emit("diceValue", this.diceValue, myRoomNo);
     this.checkForEligilePieces();
   }
@@ -141,9 +137,6 @@ export class Game {
     this.turn = this.turn === 0 ? 1 : 0;
     this.state = STATE.DICE_NOT_ROLLED;
     let turn = this.turn;
-
-    // <><> 3rd <><> >==> To set turn of player
-    //                    By default Player 1 will be allowed to roll first
     socket.emit("turn", turn, myRoomNo);
   }
 
@@ -165,14 +158,12 @@ export class Game {
           return false;
         }
       }
-      //
+
       if (
         this.currentPositions[player][piece] == WIN_POSITIONS[player][piece]
       ) {
         return false;
-      }
-      //
-      else if (player == "P2") {
+      } else if (player == "P2") {
         if (
           player == "P2" &&
           _p2.includes(currentPosition) &&
@@ -354,7 +345,7 @@ export class Game {
 
           if (this.hasPlayerWon(player)) {
             socket.emit("winner", player, myRoomNo);
-            // alert(`${player} Has won`);
+            alert(`${player} Has won`);
             this.resetGame();
           }
           const isKill = this.checkForKill(player, piece);
@@ -457,6 +448,38 @@ export class Game {
 }
 
 //* Code for sockets starts from here
+window.alertShown = false;
+
+socket.on("redirect", function (destination) {
+  window.alertShown = true;
+  const keydownHandler = function (event) {
+    event.preventDefault();
+  };
+  document.addEventListener("keydown", keydownHandler);
+  document.addEventListener("keyup", keydownHandler);
+  Swal.fire({
+    title: "Room Full",
+    customClass: {
+      popup: "my-popup",
+      confirmButton: "my-confirm-button",
+    },
+    text: "The Room you tried to Join is full",
+    icon: "error",
+    confirmButtonText: "OK",
+    width: 600,
+    padding: "3em",
+  }).then((result) => {
+    window.alertShown = false;
+    // Remove the event listeners
+    document.removeEventListener("keydown", keydownHandler);
+    document.removeEventListener("keyup", keydownHandler);
+    if (result.isConfirmed) {
+      window.location.href = destination;
+    } else {
+      window.location.href = destination;
+    }
+  });
+});
 
 let _Game;
 let started = false;
@@ -468,7 +491,7 @@ let frontEndPositions = {
 
 let frontendPlayers = PLAYERS;
 document.addEventListener("keyup", () => {
-  if (started === false) {
+  if (started === false && window.alertShown === false) {
     _Game = new Game();
     _Game.turn = 1;
     // this statement actually fixes a bug that seems quite bugging only at
@@ -485,19 +508,13 @@ document.addEventListener("keyup", () => {
     started = true;
 
     // writing the socket statements inside the eventlistener fixes an initial bug
-    socket.on("setTurn", (turn, PLAYERS) => {
-      // <><> 3rd <><> >==> To set turn of player
-      //                    By default Player 1 will be allowed to roll first
-      //PLAYERS --> from backend with their socket id
-      //
+    socket.on("setTurn", (turn, players) => {
       //this will internally set the turn of the player
       _Game.turn = turn;
       _Game.state = STATE.DICE_NOT_ROLLED;
 
-      console.log(socket.id);
-      if (socket.id !== PLAYERS[frontendPlayers[turn]]) {
-        // this socket id elongs to the player who triggered the setTurn event
-        console.log(PLAYERS);
+      if (socket.id !== players[frontendPlayers[turn]]) {
+        // this socket id belongs to the player who triggered the setTurn event
         UI.disableDice();
       }
     });
@@ -534,4 +551,26 @@ document.addEventListener("keyup", () => {
       _Game.resetIndividualGame();
     });
   }
+});
+
+socket.on("opponentDisconnected", (msg) => {
+  Swal.fire({
+    title: "Opponent Disconnected",
+    customClass: {
+      popup: "my-popup",
+      icon: "my-icon",
+      confirmButton: "my-confirm-button",
+    },
+    text: `${msg}`,
+    icon: "warning",
+    confirmButtonText: "OK",
+    width: 600,
+    padding: "3em",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "/";
+    } else {
+      window.location.href = "/";
+    }
+  });
 });
