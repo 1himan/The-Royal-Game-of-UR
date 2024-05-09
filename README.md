@@ -10,7 +10,7 @@ This game, dear friend, is not for the faint of heart. It is a battle of wits an
 
 The creation of this game was a journey in itself. Over the course of three weeks, I delved into the depths of coding, learning new skills and overcoming numerous challenges. Each problem faced was a stepping stone, leading me closer to the completion of this project. The journey was arduous, but the knowledge gained and the satisfaction of bringing an ancient game to life in the digital world made it all worthwhile.
 
-But the journey does not end here. In the spirit of the ancients, who were always striving for improvement, I too am planning to enhance this game. In the near future, I will be adding a room functionality, allowing more than two players to engage in this ancient battle of wits. For now, if you are playing on your local machine, you might need to split two windows side by side for the best experience. But fear not, for I am also working on adding interactive features to improve the user interface.
+But the journey does not end here. In the spirit of the ancients, who were always striving for improvement, I too am planning to enhance this game. I have recently added a room functionality, allowing more than two players to engage in this ancient battle of wits. I have also worked on adding interactive features to improve the user interface.
 
 ## How to Play
 
@@ -33,6 +33,11 @@ To install this game on your local machine, follow these steps:
 ## Contributing
 
 If you wish to contribute to this project, please submit a pull request. All contributions are welcome, whether they be new features, bug fixes, or simply documentation improvements.
+
+## Final Words
+
+So, brave adventurer, are you ready to take on the challenge of The Royal Game of UR? Will you emerge victorious, or will you be defeated by this ancient game? There's only one way to find out. Good luck!
+
 
 ## Final Words
 
