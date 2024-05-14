@@ -15,138 +15,142 @@
 
 <body>
   <div class="game-container">
-    <div class="lead">
-      <h2><span>The ROYAL GAME OF UR</span></h2>
-    </div>
-    <div class="game">
-      <div class="player" player-id="P1">
-        <h3 id="playerName_1" class="player_1">Player 1</h3>
-        <div class="pieces-container">
-          <div class="red"></div>
-          <div class="green"></div>
-        </div>
-        <h3 class="score_"><span>Score :</span></h3>
-        <h1 class="score"><span></span></h1>
-      </div>
-      <div class="board">
-        <div class="player-pieces">
-          <div class="player-piece" player-id="P1" piece="0">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="1">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="2">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="3">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="4">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="5">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P1" piece="6">
-            <div class="circle_one circle_1 "></div>
-            <div class="circle_one circle_2"></div>
-            <div class="circle_one circle_3"></div>
-            <div class="circle_one circle_4"></div>
-            <div class="circle_one circle_5"></div>
+    <div class="game_wrapper">
+      <div class="side"></div>
+      <div class="game">
+        <div class="player" player-id="P1">
+          <div class="pieces-container"> </div>
+          <div class="name">
+            <h3 id="playerName_1" class="player_1">Player 1</h3>
           </div>
 
-          <div class="player-piece" player-id="P2" piece="0">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="1">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="2">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="3">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="4">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="5">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
-          <div class="player-piece" player-id="P2" piece="6">
-            <div class="circle_two circle_1 "></div>
-            <div class="circle_two circle_2"></div>
-            <div class="circle_two circle_3"></div>
-            <div class="circle_two circle_4"></div>
-            <div class="circle_two circle_5"></div>
-          </div>
+          <h4 class="score_"><span>Score</span></h4>
+          <h2 class="score"><span></span></h2>
         </div>
-      </div>
-      <div class="player" player-id="P2">
-        <h1 id="playerName_2">Player 2</h1>
-        <div class="pieces-container">
-          <div class="green"></div>
-          <div class="red"></div>
-        </div>
-        <h3 class="score_"><span>Score :</span></h3>
-        <h1 class="score"><span></span></h1>
-      </div>
+        <div class="board">
+          <div class="player-pieces">
+            <div class="player-piece" player-id="P1" piece="0">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="1">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="2">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="3">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="4">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="5">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P1" piece="6">
+              <div class="circle_one circle_1 "></div>
+              <div class="circle_one circle_2"></div>
+              <div class="circle_one circle_3"></div>
+              <div class="circle_one circle_4"></div>
+              <div class="circle_one circle_5"></div>
+            </div>
 
+            <div class="player-piece" player-id="P2" piece="0">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="1">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="2">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="3">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="4">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="5">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+            <div class="player-piece" player-id="P2" piece="6">
+              <div class="circle_two circle_1 "></div>
+              <div class="circle_two circle_2"></div>
+              <div class="circle_two circle_3"></div>
+              <div class="circle_two circle_4"></div>
+              <div class="circle_two circle_5"></div>
+            </div>
+          </div>
+        </div>
+        <div class="player" player-id="P2">
+          <div class="pieces-container "> </div>
+          <div class="name">
+            <h3 id="playerName_2" class="player_2">Player 2</h3>
+          </div>
+          <h4 class="score_"><span>Score</span></h4>
+          <h2 class="score"><span></span></h2>
+        </div>
+      </div>
+      <div class="side"></div>
     </div>
+
     <div class="footer">
-      <h2 class="active-player">Active-player : <span></span></h2>
+
       <div class="row">
         <button id="dice-btn" class="btn btn-dice">Roll</button>
-        <div class="dice-value"></div>
+
+        <div class="dice-value">
+          <h1></h1>
+        </div>
+
         <button id="reset-btn" class="btn btn-reset">Reset</button>
       </div>
     </div>

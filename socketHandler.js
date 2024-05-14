@@ -28,14 +28,24 @@ module.exports.socketEvents = (io) =>
         clientNo++;
         publicRoomNo = Math.round(clientNo / 2);
         if (!publicPlayer[publicRoomNo]) {
+          //here I'm checking if room exists or not
+          //if room doesn't exists -> then create a new room
+          //if exists -> then don't create new one
           publicPlayer[publicRoomNo] = [];
         }
-        if (publicPlayer[publicRoomNo].length <= 2) {
+        if (publicPlayer[publicRoomNo].length < 2) {
           socket.join(publicRoomNo);
           socket.emit("roomID", publicRoomNo);
           publicPlayer[publicRoomNo].push(socket.id);
+          if (publicPlayer[publicRoomNo].length === 1) {
+            // Emit 'waiting' event to the first player
+            io.to(socket.id).emit("waiting");
+          } else if (publicPlayer[publicRoomNo].length === 2) {
+            // Emit 'start game' event to all players in the room
+            io.to(publicRoomNo).emit("start game");
+          }
         }
-        //rest of the code for socket logic handeling
+
         socket.on("diceValue", (diceValue, playerRoomNo) => {
           io.to(playerRoomNo).emit("diceValue", diceValue);
         });
@@ -51,8 +61,8 @@ module.exports.socketEvents = (io) =>
           io.to(playerRoomNo).emit("updatedPositions", data);
         });
 
-        socket.on("score", (score, player, text, playerRoomNo) => {
-          io.to(playerRoomNo).emit("setScore", score, player, text);
+        socket.on("score", (score, player, playerRoomNo) => {
+          io.to(playerRoomNo).emit("setScore", score, player);
         });
 
         socket.on("winner", (player, playerRoomNo) => {
@@ -89,10 +99,15 @@ module.exports.socketEvents = (io) =>
           }
           console.log("this is also rooms1", rooms);
           if (rooms[roomName].length < 2) {
-            console.log(rooms[roomName]);
             rooms[roomName].push(socket.id);
             socket.join(`${roomName}`);
-            console.log("this is also rooms2", rooms);
+            if (rooms[roomName].length === 1) {
+              // Emit 'waiting' event to the first player
+              io.to(socket.id).emit("waiting");
+            } else if (rooms[roomName].length === 2) {
+              // Emit 'start game' event to all players in the room
+              io.to(roomName).emit("start game");
+            }
           } else {
             socket.emit("redirect", "/");
           }

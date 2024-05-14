@@ -13,6 +13,9 @@ body {
   letter-spacing: 5px;
   background-size: cover;
 }
+:root {
+  --vw: -10vw;
+}
 
 .game-container {
   display: flex;
@@ -23,6 +26,7 @@ body {
   height: 92.6vh;
   width: 100vw;
   display: flex;
+  margin: 0 10vw;
   /* background-color: rgb(106, 61, 61); */
 }
 .game [player-id] {
@@ -36,7 +40,9 @@ body {
 .player {
   margin-top: 20px;
   border-radius: 10px;
-  height: 76vh;
+  height: 100vw;
+  max-height: 440px;
+  max-width: 172px;
   width: 40vw;
   display: flex;
   flex-direction: column;
@@ -44,34 +50,42 @@ body {
   align-items: center;
   position: relative;
 }
-.player h1 {
+
+.player .name {
+  width: 140%;
   position: absolute;
-  top: 20px;
+  /* left: calc(10vw + var(--vw));  */
+  top: 0.5rem;
+  left: 1rem;
 }
-.player .pieces-container {
-  height: 74%;
-  width: 80%;
-  border: 20px solid rgba(0, 0, 0, 0.76);
-  border: 4mm ridge rgba(56, 21, 1, 0.8);
-  border-radius: 10px;
+.player .name h3.player_2 {
   position: absolute;
-  top: 60px;
-  display: flex;
-  max-width: 151px;
+  /* the text inside this is getting wrapped how can I prevent that? */
+  right: 15vw;
+  white-space: nowrap;
 }
-.player .pieces-container .red {
-  width: 60%;
-  height: 100%;
-  background-color: rgb(52, 30, 1);
+@media (min-width: 650px) {
+  .player .name h3.player_2 {
+    position: absolute;
+    /* the text inside this is getting wrapped how can I prevent that? */
+    right: 4.5rem !important;
+    white-space: nowrap;
+  }
 }
-.player .pieces-container .green {
-  width: 60%;
-  height: 100%;
-  background-color: rgb(52, 30, 1);
+@media (max-width: 650px) {
+  .player .name h3.player_2 {
+    margin-right: 0.5rem;
+  }
 }
+
+/* .player .pieces-container {
+  height: 0;
+  width: 0;
+} */
 
 .player.highlight {
   animation: background-blink 0.7s infinite ease-in-out;
+
 }
 
 @keyframes background-blink {
@@ -94,23 +108,114 @@ body {
   /* 21w/54h */
   margin-top: 4rem;
   border-radius: 0.6rem;
-  width: 12.3rem;
-  height: 32rem;
+  width: 120vw;
+  height: 148vw;
+  max-width: 14.3rem;
+  max-height: 36.7rem;
   background-image: url(./Images/Ur-board.png);
   background-size: contain;
   position: relative;
 }
+h3 {
+  color: white;
+}
 
 .player-piece {
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
+  width: 70px;
+  height: 70px;
+  max-width: 35px;
+  max-height: 35px;
+  min-width: 27px;
+  min-height: 27px;
+  border-radius: 5rem;
   position: absolute;
   transform: translate(50%, 50%);
   transition: all 0.2s;
   z-index: 1;
   letter-spacing: 0px;
 }
+
+
+/* CSS for screens with width 650px and above */
+
+@media (min-width: 650px) {
+  /* Player 1 pieces */
+  .player-piece[player-id="P1"].base-position[piece="0"] {
+    position: fixed;
+    top: 0rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="1"] {
+    position: fixed;
+    top: 2.8rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="2"] {
+    position: fixed;
+    top: 5.6rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="3"] {
+    position: fixed;
+    top: 8.4rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="4"] {
+    position: fixed;
+    top: 11.2rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="5"] {
+    position: fixed;
+    top: 14rem !important;
+    left: -8.35rem !important;
+  }
+  .player-piece[player-id="P1"].base-position[piece="6"] {
+    position: fixed;
+    top: 16.8rem !important;
+    left: -8.35rem !important;
+  }
+  /* Add more selectors for each piece as needed */
+
+  /* Player 2 pieces */
+  .player-piece[player-id="P2"].base-position[piece="0"] {
+    position: fixed;
+    top: 0rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="1"] {
+    position: fixed;
+    top: 2.8rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="2"] {
+    position: fixed;
+    top: 5.6rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="3"] {
+    position: fixed;
+    top: 8.4rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="4"] {
+    position: fixed;
+    top: 11.2rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="5"] {
+    position: fixed;
+    top: 14rem !important;
+    left: 19.9rem !important;
+  }
+  .player-piece[player-id="P2"].base-position[piece="6"] {
+    position: fixed;
+    top: 16.8rem !important;
+    left: 19.9rem !important;
+  }
+  /* Add more selectors for each piece as needed */
+}
+
 .player-piece .circle_one {
   border-radius: 1rem;
   width: 0.28rem;
@@ -219,32 +324,56 @@ body {
   height: 9vh;
   display: flex;
 }
-.footer h2 {
+/* .footer h2 {
   color: white;
   margin-left: 20px;
   letter-spacing: 2px;
-}
+} */
 .row {
   display: flex;
   flex-direction: row;
-  width: 50vw;
+  width: 100vw;
+  align-content: center;
+  justify-content: center;
   flex: 1;
 }
-.row div {
-  flex: 1;
-}
+/* .row div {
+  flex: 0.2;
+} */
 .row .btn {
-  width: 70px;
+  width: 17vw;
+  max-width: 70px;
   color: white;
   height: 30px;
   border: 3px solid rgb(212, 212, 212);
   background-color: rgb(27, 27, 27);
   border-radius: 8px;
   position: relative;
-  right: 50px;
+  /* left: 48vw; */
   font-weight: 800;
   letter-spacing: 2px;
+  margin-left: 1rem;
 }
+.row #dice-btn {
+  position: relative;
+  left: -3rem;
+}
+.row #reset-btn {
+  position: relative;
+  left: 2rem;
+}
+
+.row .btn {
+  /* other styles */
+  top: calc(0.1vw + var(--vw)); /* adjust as needed */
+}
+
+@media (min-width: 580px) {
+  :root {
+    --vw: 0.5vw; /* adjust as needed */
+  }
+}
+
 .btn:disabled {
   opacity: 0.6;
 }
@@ -252,31 +381,65 @@ body {
   flex: 1;
 }
 .dice-value {
-  margin-top: 8px;
+  /* margin-top: 8px; */
   position: relative;
   font-size: 20px;
-  right: 30px;
+  left: 0.3rem;
+  bottom: 1.3rem;
   color: white;
 }
 
-h1.score span {
+h2.score span {
   position: relative;
   width: fit-content;
   height: fit-content;
-  top: 475px;
-}
-h3.score_ span {
-  position: relative;
-  width: fit-content;
-  height: fit-content;
-  top: 18rem;
-  left: -1rem;
+  /* after a particular amount of width I don't want this to move
+  how can I do that? */
+  top: 11rem;
   color: white;
+}
+h4.score_ span {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  /* after a particular amount of width I don't want this to move
+  how can I do that? */
+  /* top: 92vw; */
+  top: 10rem;
+  left: 0;
+  margin: auto;
+  color: white;
+}
+
+/* Add a media query */
+@media (min-width: 580px) {
+  /* Adjust as needed */
+  h2.score span {
+    top: 18rem; /* Adjust as needed */
+    left: -2rem;
+  }
+
+  h4.score_ span {
+    top: 17rem; /* Adjust as needed */
+    left: -2.3rem;
+  }
+
+  /* Select the span inside h4 and h2 relative to player-id attribute */
+  div[player-id="P2"] h2 > span {
+    top: 18rem; /* Adjust as needed */
+    left: 2rem;
+  }
+  div[player-id="P2"] h4 > span {
+    top: 17rem; /* Adjust as needed */
+    left: 2.3rem;
+  }
 }
 .lead h2 {
   color: white;
   position: absolute;
-  font-size: 22.5px;
+  font-size: 1rem;
+  text-align: center;
+  width: 100vw;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -285,6 +448,23 @@ canvas {
   z-index: 3;
 }
 
-.player_1 {
-  text-align: center;
+.game_wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.game {
+  width: 100%;
+  max-width: 580px; /* Adjust as needed */
+}
+
+.side {
+  flex-grow: 1;
+}
+
+@media (max-width: 580px) {
+  /* Adjust as needed */
+  .side {
+    display: none;
+  }
 }

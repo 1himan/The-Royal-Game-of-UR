@@ -10,6 +10,7 @@ import {
   WIN_POSITIONS,
   TRACK,
 } from "./constants.js";
+import showWaitingCanvas from "../Frontend/watingCanvas.js";
 
 let socket = io("http://localhost:8000/");
 let myRoomNo;
@@ -389,8 +390,8 @@ export class Game {
     this.score[player]++;
     UI.setScore(player, this.score[player]);
     this.setPiecePosition(player, piece, WIN_POSITIONS[player][piece]);
-    let text = this.setLeadingPlayer();
-    socket.emit("score", this.score[player], player, text, myRoomNo);
+    // let text = this.setLeadingPlayer();
+    socket.emit("score", this.score[player], player, myRoomNo);
   }
 
   hasPlayerWon(player) {
@@ -430,19 +431,6 @@ export class Game {
       return 20;
     } else {
       return currentPosition + 1;
-    }
-  }
-
-  setLeadingPlayer() {
-    if (this.score["P1"] > this.score["P2"]) {
-      UI.setLead(`Player 1 is in the lead`);
-      return `Player 1 is in the lead`;
-    } else if (this.score["P1"] < this.score["P2"]) {
-      UI.setLead(`Player 2 is in the lead`);
-      return `Player 2 is in the lead`;
-    } else if ((this.score["P1"] = this.score["P2"])) {
-      UI.setLead(`Let's See Who Got The NERVE`);
-      return `Let's See Who Got The NERVE`;
     }
   }
 }
@@ -537,10 +525,9 @@ document.addEventListener("keyup", () => {
       UI.setDiceValue(diceValue);
     });
 
-    socket.on("setScore", (Score, player, text) => {
+    socket.on("setScore", (Score, player) => {
       _Game.score[player] = Score;
       UI.setScore(player, Score);
-      UI.setLead(text);
     });
 
     socket.on("Winner", (player) => {
@@ -574,3 +561,6 @@ socket.on("opponentDisconnected", (msg) => {
     }
   });
 });
+
+// Use the function
+showWaitingCanvas(socket);

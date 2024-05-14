@@ -3,6 +3,8 @@ import {
   VERTICAL_STEP_LENGTH,
   HORIZONTAL_STEP_LENGTH,
   PLAYERS,
+  BASE_POSITIONS,
+  WIN_POSITIONS,
 } from "./constants.js";
 const diceButtonElement = document.querySelector("#dice-btn");
 const playerPiecesElement = {
@@ -47,11 +49,57 @@ export class UI {
       );
       return;
     }
-
     const [x, y] = COORDINATES_MAP[newPosition];
     const pieceElement = playerPiecesElement[player][piece];
-    pieceElement.style.top = y * VERTICAL_STEP_LENGTH + "%";
-    pieceElement.style.left = x * HORIZONTAL_STEP_LENGTH + "%";
+    // Check if the piece is in base position
+    if (newPosition === BASE_POSITIONS[player][piece]) {
+      // Add a class to the piece
+      pieceElement.classList.add("base-position");
+    } else {
+      // Remove the class if the piece is not in base position
+      pieceElement.classList.remove("base-position");
+    }
+
+    // Check if newPosition is equal to BASE_POSITIONS[player][piece] or WIN_POSITIONS[player][piece]
+    // Define a function to update the position of the game pieces
+    function updatePiecePosition() {
+      const pieceElement = playerPiecesElement[player][piece];
+      if (
+        newPosition === BASE_POSITIONS[player][piece]
+        // newPosition === WIN_POSITIONS[player][piece]
+      ) {
+        // Set position to absolute
+        pieceElement.style.position = "absolute";
+        pieceElement.style.top = y * VERTICAL_STEP_LENGTH + "%";
+        if (player === "P2") {
+          // Get the screen width
+          const screenWidth =
+            window.innerWidth ||
+            document.documentElement.clientWidth ||
+            document.body.clientWidth;
+          // Calculate the multiplier based on the screen width
+          let multiplier = 1.93;
+          if (screenWidth > 410) {
+            const decreaseFactor = Math.floor((screenWidth - 410) / 2) * 0.004;
+
+            multiplier -= decreaseFactor;
+          }
+          pieceElement.style.left =
+            x * HORIZONTAL_STEP_LENGTH * multiplier + "vw";
+        } else {
+          pieceElement.style.left = x * HORIZONTAL_STEP_LENGTH * 0.65 + "vw";
+        }
+      } else {
+        pieceElement.style.top = y * VERTICAL_STEP_LENGTH + "%";
+        pieceElement.style.left = x * HORIZONTAL_STEP_LENGTH + "%";
+      }
+    }
+
+    // Call the function initially to set the position
+    updatePiecePosition();
+
+    // Add the event listener for resize
+    window.addEventListener("resize", updatePiecePosition);
   }
 
   static setTurn(index) {
@@ -61,7 +109,7 @@ export class UI {
     }
     const player = PLAYERS[index];
     //diplay the player ID
-    document.querySelector(".active-player span").innerText = player;
+    // document.querySelector(".active-player span").innerText = player;
 
     //The if condition in this code is checking whether the activePlayer variable
     //is truthy. In JavaScript, a variable is considered truthy if it exists and
@@ -107,17 +155,12 @@ export class UI {
   }
 
   static setDiceValue(value) {
-    document.querySelector(".dice-value").innerText = value;
+    document.querySelector(".dice-value h1").innerText = value;
   }
 
   static setScore(player, score) {
     document.querySelector(
       `[player-id="${player}"].player .score span`
     ).innerText = score;
-  }
-
-  static setLead(text) {
-    let lead = document.querySelector("div.lead > h2 > span");
-    lead.innerText = text;
   }
 }

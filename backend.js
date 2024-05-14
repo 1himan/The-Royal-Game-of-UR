@@ -44,7 +44,7 @@ app.post("/game", (req, res) => {
     return res.render("error");
   }
   let roomName = req.body.joinRoomName;
-  console.log(rooms);
+
   //rooms is imported from socketHandler.js
   if (roomName in rooms) {
     console.log(`Room ${roomName} exists.`);
@@ -60,7 +60,5 @@ app.get("/game/private/:roomName", (req, res) => {
   res.render("index.ejs", { type: "private", roomName: roomName });
 });
 
-console.log("what is this ", rooms);
 //this is imported from socketHandler.js
 socketEvents(io);
-console.log("this is rooms", rooms);
