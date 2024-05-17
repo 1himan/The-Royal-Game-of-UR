@@ -481,7 +481,6 @@ let frontendPlayers = PLAYERS;
 document.addEventListener("keyup", () => {
   if (started === false && window.alertShown === false) {
     _Game = new Game();
-    _Game.turn = 1;
     // this statement actually fixes a bug that seems quite bugging only at
     // the starting of the game and doesnt bother further
     // The bug was that when game is started i was able to click on both
@@ -490,20 +489,38 @@ document.addEventListener("keyup", () => {
     // \/ \/ \/
     _Game.increamentTurn();
     frontEndPositions = _Game.currentPositions;
-
     diceValue = _Game._diceValue;
-
     started = true;
 
     // writing the socket statements inside the eventlistener fixes an initial bug
     socket.on("setTurn", (turn, players) => {
       //this will internally set the turn of the player
       _Game.turn = turn;
+      //this player has not rolled the dice yet
       _Game.state = STATE.DICE_NOT_ROLLED;
 
       if (socket.id !== players[frontendPlayers[turn]]) {
-        // this socket id belongs to the player who triggered the setTurn event
+        // this socket id belongs to the player's fronted and is saved in the fronted
+        // user frontend has access to this
+
+        // Here I'm checking if the player who triggered the event is me ( the frontend ) or not?
+        // if it is me then -> not my turn
+        // if not me then -> my turn boi
+
+        // Me (the frontend)
+        //      \/
+        //jST_vzoctHtfcqGOAAAF     ["P1", "P2"]   0 or 1
+        //      \/                    /\          /\
+        // socket.id !== players[frontendPlayers[turn]]
+        //                  \/
+        //                private {
+        //                 P1: "jLTdaX1MfPcbxjFpAAAD"
+        //                 P2: "jST_vzoctHtfcqGOAAAF"
+        //               }
+
         UI.disableDice();
+        console.log(socket.id);
+        console.log(players);
       }
     });
 

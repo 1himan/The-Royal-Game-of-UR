@@ -5,6 +5,8 @@ let public = {
   P2: 1,
 };
 let private = {
+  // instead of these binary digits these players
+  // will contain their own socket id
   P1: 0,
   P2: 1,
 };
@@ -123,7 +125,13 @@ module.exports.socketEvents = (io) =>
           if (playersInRoom && playersInRoom.length >= 2) {
             private.P1 = playersInRoom[0];
             private.P2 = playersInRoom[1];
-
+            //here the private object is emitted alongside with the turn
+            //and it goes like this
+            // private {
+            //   P1: fkajj45kj23ku8f04564 -> this is player's unique socket Id
+            //   P2: sdajj4235gyku8f0a8sd
+            // }
+            // and turn will either be 0 (player 1) or 1 (player 2)
             io.to(playerRoomNo).emit("setTurn", turn, private);
           }
         });
@@ -165,3 +173,6 @@ module.exports.socketEvents = (io) =>
       }
     });
   });
+
+
+  

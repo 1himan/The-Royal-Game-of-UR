@@ -85,7 +85,6 @@ body {
 
 .player.highlight {
   animation: background-blink 0.7s infinite ease-in-out;
-
 }
 
 @keyframes background-blink {
@@ -121,10 +120,10 @@ h3 {
 }
 
 .player-piece {
-  width: 70px;
-  height: 70px;
-  max-width: 35px;
-  max-height: 35px;
+  width: 45px;
+  height: 45px;
+  /* max-width: 35px;
+  max-height: 35px; */
   min-width: 27px;
   min-height: 27px;
   border-radius: 5rem;
@@ -134,7 +133,6 @@ h3 {
   z-index: 1;
   letter-spacing: 0px;
 }
-
 
 /* CSS for screens with width 650px and above */
 
@@ -281,7 +279,7 @@ h3 {
 }
 
 [player-id="P1"].player-piece {
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(226, 226, 226) !important;
   display: flex;
   align-items: center;
   color: rgb(0, 0, 0);
@@ -395,7 +393,7 @@ h2.score span {
   height: fit-content;
   /* after a particular amount of width I don't want this to move
   how can I do that? */
-  top: 11rem;
+  top: 11.5rem;
   color: white;
 }
 h4.score_ span {
@@ -405,7 +403,7 @@ h4.score_ span {
   /* after a particular amount of width I don't want this to move
   how can I do that? */
   /* top: 92vw; */
-  top: 10rem;
+  top: 11rem;
   left: 0;
   margin: auto;
   color: white;
@@ -421,17 +419,17 @@ h4.score_ span {
 
   h4.score_ span {
     top: 17rem; /* Adjust as needed */
-    left: -2.3rem;
+    left: -2.1rem;
   }
 
   /* Select the span inside h4 and h2 relative to player-id attribute */
   div[player-id="P2"] h2 > span {
     top: 18rem; /* Adjust as needed */
-    left: 2rem;
+    left: 2.2rem;
   }
   div[player-id="P2"] h4 > span {
     top: 17rem; /* Adjust as needed */
-    left: 2.3rem;
+    left: 2.2rem;
   }
 }
 .lead h2 {

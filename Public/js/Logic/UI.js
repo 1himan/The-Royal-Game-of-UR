@@ -108,8 +108,7 @@ export class UI {
       return;
     }
     const player = PLAYERS[index];
-    //diplay the player ID
-    // document.querySelector(".active-player span").innerText = player;
+    
 
     //The if condition in this code is checking whether the activePlayer variable
     //is truthy. In JavaScript, a variable is considered truthy if it exists and
