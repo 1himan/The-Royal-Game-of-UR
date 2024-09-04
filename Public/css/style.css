@@ -89,7 +89,7 @@ body {
 
 @keyframes background-blink {
   50% {
-    background-color: rgba(255, 255, 255, 0.28);
+    background-color: rgba(128, 128, 128, 0);
   }
 }
 

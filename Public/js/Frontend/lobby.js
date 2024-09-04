@@ -38,7 +38,7 @@ function validateForm() {
       icon: "warning",
       confirmButtonText: "OK",
       width: 600,
-      padding: "3em",
+      padding: "2em",
     });
     return false;
   }
@@ -79,6 +79,8 @@ if (window.location.search.includes("roomDoesNotExist=true")) {
     icon: "question",
     title: "This room doesn't exist",
     iconColor: "#FFFAB7",
+    width:"20rem"
+    
   });
   //
   // Remove the query parameter

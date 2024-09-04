@@ -12,20 +12,17 @@ import {
 } from "./constants.js";
 import showWaitingCanvas from "../Frontend/watingCanvas.js";
 
-let socket = io("http://localhost:8000/");
+let socket = io();
 let myRoomNo;
 if (window.roomType == "public") {
   // To join a public game
-
   socket.emit("join", "public");
   socket.on("roomID", (roomNo) => {
     myRoomNo = roomNo;
   });
 } else if (window.roomType == "private") {
   // To join a private games
-
   myRoomNo = window.roomName;
-
   socket.emit("join", "private");
   socket.emit("myRoomNo", myRoomNo);
 } else alert("bad request");
@@ -37,7 +34,13 @@ export class Game {
         this.setPiecePosition(player, piece, BASE_POSITIONS[player][piece]);
       });
     });
-
+    //even though here looks like the 2nd player is allowed to roll first
+    //but after game is instantiated and _Game.increamentTurn method is called
+    //the turn will be increamented(changed) to 0 and emitted to both players
+    //hence the player 1 will be allowed to roll first
+    //And player 1 is no one but the user who joined the game first
+    //and was added to the backendPlayers array first (on 0th index)
+    //hence he's called player 1
     this.turn = 1;
     this.moveTurn = false;
     this.listenDiceClick();
@@ -392,6 +395,7 @@ export class Game {
     this.setPiecePosition(player, piece, WIN_POSITIONS[player][piece]);
     // let text = this.setLeadingPlayer();
     socket.emit("score", this.score[player], player, myRoomNo);
+    console.log(this.score[player])
   }
 
   hasPlayerWon(player) {
@@ -481,12 +485,7 @@ let frontendPlayers = PLAYERS;
 document.addEventListener("keyup", () => {
   if (started === false && window.alertShown === false) {
     _Game = new Game();
-    // this statement actually fixes a bug that seems quite bugging only at
-    // the starting of the game and doesnt bother further
-    // The bug was that when game is started i was able to click on both
-    // player's windows (dice btn) regardless of their turn but this line of code
-    // fixes that stuff
-    // \/ \/ \/
+    // here I have increamented the turn
     _Game.increamentTurn();
     frontEndPositions = _Game.currentPositions;
     diceValue = _Game._diceValue;
@@ -508,19 +507,18 @@ document.addEventListener("keyup", () => {
         // if not me then -> my turn boi
 
         // Me (the frontend)
-        //      \/
-        //jST_vzoctHtfcqGOAAAF     ["P1", "P2"]   0 or 1
-        //      \/                    /\          /\
+        //      ↓
+        //jST_vzoctHtfcqGOAAAF   ["P1", "P2"]   0 or 1
+        //      ↓                      ↑          ↑
         // socket.id !== players[frontendPlayers[turn]]
-        //                  \/
-        //                private {
+        //                 ↓
+        //               private {
         //                 P1: "jLTdaX1MfPcbxjFpAAAD"
         //                 P2: "jST_vzoctHtfcqGOAAAF"
         //               }
+        // these are just some random socket ids
 
         UI.disableDice();
-        console.log(socket.id);
-        console.log(players);
       }
     });
 
