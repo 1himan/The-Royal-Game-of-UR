@@ -1,4 +1,4 @@
-import createCanvas from "/js/frontend/canvas.js";
+import createCanvas from "./canvas.js";
 export default function showWaitingCanvas(socket) {
   let canvas;
   socket.on("waiting", function () {
